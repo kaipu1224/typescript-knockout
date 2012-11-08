@@ -23,7 +23,9 @@ var app;
                 }
             };
             this.removeUser = function (userName) {
-                this.editingList.userNames.remove(userName);
+                if(confirm("remove this user ?")) {
+                    this.editingList.userNames.remove(userName);
+                }
             }.bind(this);
             this.saveChanges = function () {
                 var saveAs = prompt("Save as", this.editingList.name());
@@ -73,6 +75,8 @@ var app;
                 return this.userNameToAddIsValid() && this.userNameToAdd() != "";
             }, this);
             ko.computed(function () {
+                $("#loadingIndicator").fadeIn();
+                $("#loadingIndicator").html("Now loading...");
                 this.twitterApi.getTweetsForUsers(this.editingList.userNames(), this.currentTweets);
             }, this);
         }
@@ -98,16 +102,21 @@ var app;
                 if(userNames.length == 0) {
                     callback([]);
                 } else {
-                    var url = "http://search.twitter.com/search.json?callback=?&rpp=100&q=";
+                    var url = "http://search.twitter.com/search.json?callback=?&rpp=100&suppress_response_codes=true&q=";
                     for(var i = 0; i < userNames.length; i++) {
                         url += "from:" + userNames[i] + (i < userNames.length - 1 ? " OR " : "");
                     }
                     $.ajax(url, {
                         dataType: "jsonp",
                         success: function (data) {
-                            callback($.grep(data.results || [], function (tweet) {
-                                return !tweet.to_user_id;
-                            }, false));
+                            if(data.error == undefined) {
+                                callback($.grep(data.results || [], function (tweet) {
+                                    return !tweet.to_user_id;
+                                }, false));
+                                $("#loadingIndicator").fadeOut();
+                            } else {
+                                $("#loadingIndicator").fadeOut();
+                            }
                         }
                     });
                 }
@@ -159,9 +168,4 @@ var savedLists = [
 $(function () {
     var view = new app.ViewModel(savedLists, "Tech pundits");
     ko.applyBindings(view);
-    $(".loadingIndicator").ajaxStart(function () {
-        $(this).fadeIn();
-    }).ajaxComplete(function () {
-        $(this).fadeOut();
-    });
 });

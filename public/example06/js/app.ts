@@ -42,8 +42,10 @@ module app {
 		        }
 		    };
 		 
-		    this.removeUser = function(userName) { 
-		        this.editingList.userNames.remove(userName) 
+		    this.removeUser = function(userName) {
+		    	if(confirm("remove this user ?")){
+		        	this.editingList.userNames.remove(userName);
+		    	}
 		    }.bind(this);
 		 
 		    this.saveChanges = function() {
@@ -99,6 +101,8 @@ module app {
 		 
 		    // The active user tweets are (asynchronously) computed from editingList.userNames
 		    ko.computed(function() {
+		    	$("#loadingIndicator").fadeIn();
+		    	$("#loadingIndicator").html("Now loading...");
 		        this.twitterApi.getTweetsForUsers(this.editingList.userNames(), this.currentTweets);
 		    }, this);
 		}
@@ -127,7 +131,7 @@ module app {
 		        if (userNames.length == 0)
 		            callback([]);
 		        else {
-		            var url = "http://search.twitter.com/search.json?callback=?&rpp=100&q=";
+		            var url = "http://search.twitter.com/search.json?callback=?&rpp=100&suppress_response_codes=true&q=";
 		            for (var i = 0; i < userNames.length; i++){
 		                url += "from:" + userNames[i] + (i < userNames.length - 1 ? " OR " : "");
 		            }
@@ -137,9 +141,14 @@ module app {
 		                	dataType: "jsonp",
 		                	success: function (data)
 		                	{
-		                		callback($.grep(data.results || [], function (tweet) {
-		                			return !tweet.to_user_id;
-		                		}, false));
+		                		if(data.error == undefined){
+			                		callback($.grep(data.results || [], function (tweet) {
+			                			return !tweet.to_user_id;
+			                		}, false));
+			                		$("#loadingIndicator").fadeOut();
+		                		}else{
+		                			$("#loadingIndicator").fadeOut();
+		                		}
 		                	}
 		            	}
 		            );
@@ -161,14 +170,9 @@ var savedLists : any = [
     { name: "Microsoft people", userNames: ['BillGates', 'shanselman', 'ScottGu']},
     { name: "Tech pundits", userNames: ['Scobleizer', 'LeoLaporte', 'techcrunch', 'BoingBoing', 'timoreilly', 'codinghorror']}
 ];
-$(function(){
 
+$(function(){
 	var view = new app.ViewModel(savedLists, "Tech pundits");
 	ko.applyBindings(view);
 
-	$(".loadingIndicator").ajaxStart(function() {
-	    $(this).fadeIn();
-	}).ajaxComplete(function() {
-	    $(this).fadeOut();
-	});
 });
