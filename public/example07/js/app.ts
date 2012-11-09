@@ -41,6 +41,9 @@ module app {
 			this.search = ()=> this.searchData();
 			this.sort = ()=> this.sortData();
 			this.resultCount = ko.observable(0);
+			this.resultCount = ko.computed(()=>{
+				return this.heroList().length;
+			});
 
 			var loadStartFunc = function(){
 				$("#loading").fadeIn();
@@ -105,10 +108,6 @@ module app {
 					return age1 == age2 ? 0 : (age1 < age2 ? 1 : -1);
 				}
 			});
-
-			this.resultCount = ko.computed(()=>{
-				return this.heroList().length;
-			});
 		}
 	}
 
@@ -118,7 +117,7 @@ module app {
 		loadEndFunc:any;
 
 		// for debug
-		debug:bool = true;
+		debug:bool = false;
 
 		constructor(loadStartFunc:any, loadEndFunc:any){
 			this.loadStartFunc = loadStartFunc;

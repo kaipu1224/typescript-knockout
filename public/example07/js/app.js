@@ -33,6 +33,9 @@ var app;
                 return _this.sortData();
             };
             this.resultCount = ko.observable(0);
+            this.resultCount = ko.computed(function () {
+                return _this.heroList().length;
+            });
             var loadStartFunc = function () {
                 $("#loading").fadeIn();
                 self.removeAll();
@@ -72,7 +75,6 @@ var app;
             this.db.getHeroData();
         };
         ModelView.prototype.sortData = function () {
-            var _this = this;
             var sort = this.sortValue();
             this.heroList.sort(function (a, b) {
                 if(sort == "名前(昇順)") {
@@ -92,16 +94,13 @@ var app;
                     return age1 == age2 ? 0 : (age1 < age2 ? 1 : -1);
                 }
             });
-            this.resultCount = ko.computed(function () {
-                return _this.heroList().length;
-            });
         };
         return ModelView;
     })();
     app.ModelView = ModelView;    
     var DatabaseModel = (function () {
         function DatabaseModel(loadStartFunc, loadEndFunc) {
-            this.debug = true;
+            this.debug = false;
             this.loadStartFunc = loadStartFunc;
             this.loadEndFunc = loadEndFunc;
         }

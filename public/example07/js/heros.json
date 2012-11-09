@@ -20,7 +20,7 @@
 {"id":"18", "name":"ジョセフ"                            , "alive":"1", "age":"??", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"???", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"19", "name":"劉(りゅう)"                          , "alive":"1", "age":"??", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"中国", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"20", "name":"膝丸 燈(ひざまる あかり)"            , "alive":"1", "age":"21", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"日本", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
-{"id":"21", "name":"シーラ"                              , "alive":"1", "age":"??", "gender":"Female", "height":"???cm", "weight":"??kg" , "country":"グランメキシコ", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
+{"id":"21", "name":"シーラ"                              , "alive":"0", "age":"??", "gender":"Female", "height":"???cm", "weight":"??kg" , "country":"グランメキシコ", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"22", "name":"アレックス"                          , "alive":"1", "age":"17", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"グランメキシコ", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"23", "name":"マルコス・エリングラッド・ガルシア"  , "alive":"1", "age":"16", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"グランメキシコ", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"24", "name":"エヴァ"                              , "alive":"1", "age":"??", "gender":"Female", "height":"???cm", "weight":"??kg" , "country":"ドイツ", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
@@ -37,5 +37,5 @@
 {"id":"35", "name":"ケント・ホーランド"                  , "alive":"0", "age":"26", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"ニュージーランド", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"36", "name":"トーマス・ベルウッド"                , "alive":"0", "age":"31", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"アメリカ合衆国", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
 {"id":"37", "name":"カルロス・ミネリー"                  , "alive":"0", "age":"31", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"アメリカ合衆国", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
-{"id":"38", "name":"M･K･デイヴス"                        , "alive":"0", "age":"??", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"アメリカ合衆国", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""},
+{"id":"38", "name":"M･K･デイヴス"                        , "alive":"0", "age":"??", "gender":"Male"  , "height":"???cm", "weight":"??kg" , "country":"アメリカ合衆国", "mo1":"???", "mo2":"", "like":"", "hate":"", "desc":"", "imgUrl":""}
 ]
