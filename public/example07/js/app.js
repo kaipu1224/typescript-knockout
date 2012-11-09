@@ -2,27 +2,99 @@ var app;
 (function (app) {
     var ModelView = (function () {
         function ModelView(title) {
+            var _this = this;
             var self = this;
             this.titleText = ko.observable(title);
             this.heroList = ko.observableArray();
+            this.aliveOptions = ko.observableArray([
+                "全て", 
+                "生存", 
+                "死亡"
+            ]);
+            this.aliveValue = ko.observable("全て");
+            this.genderOptions = ko.observableArray([
+                "全て", 
+                "男性", 
+                "女性"
+            ]);
+            this.genderValue = ko.observable("全て");
+            this.sortOptions = ko.observableArray([
+                "無し", 
+                "名前(昇順)", 
+                "名前(降順)", 
+                "年齢(昇順)", 
+                "年齢(降順)"
+            ]);
+            this.sortValue = ko.observable("無し");
+            this.search = function () {
+                return _this.searchData();
+            };
+            this.sort = function () {
+                return _this.sortData();
+            };
+            this.resultCount = ko.observable(0);
             var loadStartFunc = function () {
                 $("#loading").fadeIn();
                 self.removeAll();
             };
             var loadEndFunc = function (data) {
-                $("#loading").fadeOut();
                 $.each(data, function (i, row) {
-                    self.addHero(row);
+                    var check = true;
+                    if(self.aliveValue() != "全て") {
+                        var aliveState = self.aliveValue() == "生存" ? "1" : "0";
+                        if(row["alive"] != aliveState) {
+                            check = false;
+                        }
+                    }
+                    if(self.genderValue() != "全て") {
+                        var genderState = self.genderValue() == "男性" ? "Male" : "Female";
+                        if(row["gender"] != genderState) {
+                            check = false;
+                        }
+                    }
+                    if(check) {
+                        self.addHero(row);
+                    }
                 });
+                self.sortData();
+                $("#loading").fadeOut();
             };
             this.db = new DatabaseModel(loadStartFunc, loadEndFunc);
-            this.db.getHeroData();
+            this.searchData();
         }
         ModelView.prototype.addHero = function (row) {
             this.heroList.push(row);
         };
         ModelView.prototype.removeAll = function () {
             this.heroList.removeAll();
+        };
+        ModelView.prototype.searchData = function () {
+            this.db.getHeroData();
+        };
+        ModelView.prototype.sortData = function () {
+            var _this = this;
+            var sort = this.sortValue();
+            this.heroList.sort(function (a, b) {
+                if(sort == "名前(昇順)") {
+                    return a.name == b.name ? 0 : (a.name > b.name ? 1 : -1);
+                }
+                if(sort == "名前(降順)") {
+                    return a.name == b.name ? 0 : (a.name < b.name ? 1 : -1);
+                }
+                if(sort == "年齢(昇順)") {
+                    var age1 = a.age == "??" ? 99 : a.age;
+                    var age2 = b.age == "??" ? 99 : b.age;
+                    return age1 == age2 ? 0 : (age1 > age2 ? 1 : -1);
+                }
+                if(sort == "年齢(降順)") {
+                    var age1 = a.age == "??" ? 99 : a.age;
+                    var age2 = b.age == "??" ? 99 : b.age;
+                    return age1 == age2 ? 0 : (age1 < age2 ? 1 : -1);
+                }
+            });
+            this.resultCount = ko.computed(function () {
+                return _this.heroList().length;
+            });
         };
         return ModelView;
     })();
@@ -42,7 +114,7 @@ var app;
                         "id": "0",
                         "name": "小町 小吉(こまち しょうきち)",
                         "alive": "1",
-                        "age": "22(第一部) 42?(第二部)",
+                        "age": "42",
                         "gender": "Male",
                         "height": "187cm",
                         "weight": "87kg",
@@ -74,7 +146,7 @@ var app;
                         "id": "2",
                         "name": "蛭間 一郎(ひるま いちろう)",
                         "alive": "1",
-                        "age": "18(第一部) 42?(第二部)",
+                        "age": "38",
                         "gender": "Male",
                         "height": "170cm",
                         "weight": "87kg",
@@ -90,7 +162,7 @@ var app;
                         "id": "3",
                         "name": "本多 晃(ほんだ こう)",
                         "alive": "1",
-                        "age": "(不明)",
+                        "age": "??",
                         "gender": "Male",
                         "height": "(不明)",
                         "weight": "(不明)",
@@ -318,7 +390,7 @@ var app;
                         "gender": "Male",
                         "height": "190cm",
                         "weight": "136kg",
-                        "country": "ドイツ",
+                        "country": "ロシア",
                         "mo1": "タスマニアン・キング・クラブ",
                         "mo2": "",
                         "like": "",
@@ -350,7 +422,7 @@ var app;
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "中国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -362,11 +434,11 @@ var app;
                         "id": "20",
                         "name": "膝丸 燈(ひざまる あかり)",
                         "alive": "1",
-                        "age": "??",
+                        "age": "21",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "日本",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -382,7 +454,7 @@ var app;
                         "gender": "Female",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "グランメキシコ",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -394,11 +466,11 @@ var app;
                         "id": "22",
                         "name": "アレックス",
                         "alive": "1",
-                        "age": "??",
+                        "age": "17",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "グランメキシコ",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -410,11 +482,11 @@ var app;
                         "id": "23",
                         "name": "マルコス・エリングラッド・ガルシア",
                         "alive": "1",
-                        "age": "??",
+                        "age": "16",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "グランメキシコ",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -430,7 +502,7 @@ var app;
                         "gender": "Female",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "ドイツ",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -446,7 +518,7 @@ var app;
                         "gender": "Female",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "ロシア",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -462,7 +534,7 @@ var app;
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "ロシア",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -494,7 +566,7 @@ var app;
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "日本",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -510,7 +582,7 @@ var app;
                         "gender": "Female",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "日本",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -542,7 +614,7 @@ var app;
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "日本",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -554,11 +626,11 @@ var app;
                         "id": "32",
                         "name": "ジョナサン・レッド",
                         "alive": "0",
-                        "age": "??",
+                        "age": "39",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "アメリカ合衆国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -570,11 +642,11 @@ var app;
                         "id": "33",
                         "name": "ジョージ・スマイルズ",
                         "alive": "0",
-                        "age": "??",
+                        "age": "25",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "アメリカ合衆国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -586,11 +658,11 @@ var app;
                         "id": "34",
                         "name": "リサ・オイカワ",
                         "alive": "0",
-                        "age": "??",
+                        "age": "25",
                         "gender": "Female",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "日本",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -602,11 +674,11 @@ var app;
                         "id": "35",
                         "name": "ケント・ホーランド",
                         "alive": "0",
-                        "age": "??",
+                        "age": "26",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "ニュージーランド",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -618,11 +690,11 @@ var app;
                         "id": "36",
                         "name": "トーマス・ベルウッド",
                         "alive": "0",
-                        "age": "??",
+                        "age": "31",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "アメリカ合衆国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -634,11 +706,11 @@ var app;
                         "id": "37",
                         "name": "カルロス・ミネリー",
                         "alive": "0",
-                        "age": "??",
+                        "age": "31",
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "アメリカ合衆国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -654,7 +726,7 @@ var app;
                         "gender": "Male",
                         "height": "???cm",
                         "weight": "??kg",
-                        "country": "???",
+                        "country": "アメリカ合衆国",
                         "mo1": "???",
                         "mo2": "",
                         "like": "",
@@ -664,10 +736,7 @@ var app;
                     }, 
                     
                 ];
-                var sortedData = _.chain(data).sortBy(function (item) {
-                    return item.alive;
-                }).value();
-                this.loadEndFunc(sortedData);
+                this.loadEndFunc(data);
             } else {
                 $.get("js/heros.json", function (data) {
                     _this.loadEndFunc($.parseJSON(data));

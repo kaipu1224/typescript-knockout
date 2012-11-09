@@ -23,12 +23,13 @@
 		<div class="page-region">
 			<div class="page-region-content">
 				<div class="row">
-					<input type="checkbox">生存
-					<input type="checkbox">死亡
-					<input type="checkbox">男性
-					<input type="checkbox">女性
-					<input type="checkbox">第一部
-					<input type="checkbox">第二部
+					<p>
+						&nbsp;
+						検索結果:<label data-bind="text:resultCount() + '名'"></label>
+						生存状況:<select data-bind="options:aliveOptions, value:aliveValue, event:{change:search}"></select>
+						性別:<select data-bind="options:genderOptions, value:genderValue, event:{change:search}"></select>
+						ソート順:<select data-bind="options:sortOptions, value:sortValue, event:{change:sort}"></select>
+					</p>
 				</div>
 				<div class="row">
 					<ul data-bind="foreach:heroList" class="listview image fluid">
@@ -37,12 +38,12 @@
 								<img data-bind="attr:{src:imgUrl}"/>
 							</div>
 							<div class="data">
-								<h4 class="fg-color-white" data-bind="text: '名前：' + name"></h4>
+								<h5 class="fg-color-white" data-bind="text: '名前：' + name"></h5>
 								<p class="fg-color-white" data-bind="text: '年齢:' + age"></p>
 								<p class="fg-color-white" data-bind="text: '性別:' + gender"></p>
-								<p class="fg-color-white" data-bind="text: '好きな物:' + like"></p>
-								<p class="fg-color-white" data-bind="text: '嫌いな物' + hate"></p>
-								<p class="fg-color-white" data-bind="text: '手術ベース:' + mo1"></p>
+								<p class="fg-color-white" data-bind="text: '国籍:' + country"></p>
+								<p class="fg-color-white" data-bind="text: '好き:' + like"></p>
+								<p class="fg-color-white" data-bind="text: '嫌い:' + hate"></p>
 							</div>
 						</li>
 					</ul>
