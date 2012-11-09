@@ -684,6 +684,9 @@ table {
 .bg-color-darken {
   background-color: #1d1d1d !important;
 }
+.bg-color-gray {
+  background-color: #5d5d5d !important;
+}
 .bg-color-white {
   background-color: #ffffff !important;
 }
@@ -5805,7 +5808,7 @@ pre code {
   margin-bottom: 10px;
   border: 4px transparent solid;
   padding: 10px;
-  width: 300px;
+  width: 400px;
   position: relative;
   display: block;
   cursor: pointer;

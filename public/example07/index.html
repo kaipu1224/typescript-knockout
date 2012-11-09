@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>じじょうじょ</title>
+	<link rel="stylesheet" href="../assets/css/modern.css" media="all">
+	<link rel="stylesheet" href="../assets/css/modern-responsive.css" media="all">
+	<link rel="stylesheet" href="css/app.css" media="all">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="../assets/js/knockout-2.2.0.js" type="text/javascript"></script>
+    <script src="../assets/js/underscore.js"></script>
+</head>
+<body class="modern-ui">
+	<div class="navigation-bar">
+		<div class="navigation-bar-inner">
+			<div class="brand">
+				<span class="name" data-bind="text:titleText"></span>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="page-region">
+			<div class="page-region-content">
+				<div class="row">
+					<input type="checkbox">生存
+					<input type="checkbox">死亡
+					<input type="checkbox">男性
+					<input type="checkbox">女性
+					<input type="checkbox">第一部
+					<input type="checkbox">第二部
+				</div>
+				<div class="row">
+					<ul data-bind="foreach:heroList" class="listview image fluid">
+						<li data-bind="attr: {class: alive == '1' ? (gender == 'Male' ? 'bg-color-blueDark' : 'bg-color-red') : 'bg-color-gray'}">
+							<div class="icon">
+								<img data-bind="attr:{src:imgUrl}"/>
+							</div>
+							<div class="data">
+								<h4 class="fg-color-white" data-bind="text: '名前：' + name"></h4>
+								<p class="fg-color-white" data-bind="text: '年齢:' + age"></p>
+								<p class="fg-color-white" data-bind="text: '性別:' + gender"></p>
+								<p class="fg-color-white" data-bind="text: '好きな物:' + like"></p>
+								<p class="fg-color-white" data-bind="text: '嫌いな物' + hate"></p>
+								<p class="fg-color-white" data-bind="text: '手術ベース:' + mo1"></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="loading" class="message-dialog bg-color-purple fg-color-white">Now loading...</div>
+	<script src="js/app.js"></script>
+</body>
+</html>
